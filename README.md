@@ -2,7 +2,8 @@
 
 12 scenario-based labs covering the core AWS services for the SAA-C03 exam — built through the AWS Console, the AWS CLI, and AWS CloudFormation, with an architecture diagram and interview-style questions for each.
 
-**Live diagrams & walkthroughs:** https://YOUR-USERNAME.github.io/aws-saa-hands-on-labs/ *(enable GitHub Pages on `/docs` to activate this link)*
+**Live diagrams & walkthroughs:** https://baigquickkeys.github.io/aws-saa-hands-on-labs/ *(enable GitHub Pages on `/docs` to activate this link)*
+
 
 ## Architecture
 
