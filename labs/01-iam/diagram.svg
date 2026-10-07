@@ -1,0 +1,24 @@
+<svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" font-family="monospace">
+  <defs>
+    <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10z" fill="#2C5282"/></marker>
+    <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10z" fill="#C0392B"/></marker>
+  </defs>
+  <style>
+    .box{ fill:#EFF4F8; stroke:#2C5282; stroke-width:1.3; }
+    .title{ fill:#10202F; font-weight:600; font-size:11px; }
+    .sub{ fill:#3D5A73; font-size:9px; }
+    .flow{ stroke:#2C5282; stroke-width:1.5; fill:none; marker-end:url(#a1); }
+    .bad{ stroke:#C0392B; stroke-width:1.5; fill:none; marker-end:url(#a3); }
+    .lbl{ fill:#3D5A73; font-size:9px; }
+  </style>
+
+  <circle cx="50" cy="60" r="20" class="box"/><text x="50" y="65" text-anchor="middle" class="title">User</text>
+  <rect x="130" y="40" width="110" height="40" rx="3" class="box"/><text x="185" y="64" text-anchor="middle" class="title">assumes Role</text>
+  <rect x="280" y="40" width="110" height="40" rx="3" class="box"/><text x="335" y="59" text-anchor="middle" class="title">Policy</text><text x="335" y="72" text-anchor="middle" class="sub">JSON, scoped</text>
+  <line x1="70" y1="60" x2="128" y2="60" class="flow"/>
+  <line x1="240" y1="60" x2="278" y2="60" class="flow"/>
+  <rect x="150" y="130" width="90" height="40" rx="3" class="box"/><text x="195" y="154" text-anchor="middle" class="title">S3 bucket</text>
+  <rect x="280" y="130" width="90" height="40" rx="3" class="box"/><text x="325" y="154" text-anchor="middle" class="title">EC2 stop</text>
+  <path d="M335,80 C335,105 195,105 195,128" class="flow"/><text x="220" y="112" class="lbl">allow</text>
+  <path d="M335,80 C335,110 325,110 325,128" class="bad"/><text x="345" y="112" class="lbl">deny</text>
+</svg>

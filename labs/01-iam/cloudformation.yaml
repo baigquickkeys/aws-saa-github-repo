@@ -1,0 +1,79 @@
+# Lab 1 — IAM
+# Deploy: aws cloudformation deploy --stack-name aws-lab-01-iam --template-file lab-01-iam.yaml --capabilities CAPABILITY_NAMED_IAM --parameter-overrides BucketName=my-invoices-2026
+# No dependency on other stacks. Exports the instance profile Lab 2 will attach.
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Lab 1 - IAM group, least-privilege policy, and EC2 instance role
+
+Parameters:
+  BucketName:
+    Type: String
+    Description: Name of the S3 bucket the EC2 role should be allowed to read (created in Lab 3)
+
+Resources:
+
+  DevelopersGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: Developers
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+
+  DevEC2DevTagPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: DevEC2DevTag
+      Groups:
+        - !Ref DevelopersGroup
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - ec2:StartInstances
+              - ec2:StopInstances
+            Resource: '*'
+            Condition:
+              StringEquals:
+                'aws:ResourceTag/Env': dev
+
+  EC2S3ReadRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: ec2-s3-read-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: S3ReadOneBucket
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:ListBucket
+                Resource:
+                  - !Sub 'arn:aws:s3:::${BucketName}'
+                  - !Sub 'arn:aws:s3:::${BucketName}/*'
+
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: ec2-s3-read-profile
+      Roles:
+        - !Ref EC2S3ReadRole
+
+Outputs:
+  InstanceProfileName:
+    Value: !Ref EC2InstanceProfile
+    Export:
+      Name: !Sub '${AWS::StackName}-InstanceProfileName'
+  RoleArn:
+    Value: !GetAtt EC2S3ReadRole.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-RoleArn'

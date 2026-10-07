@@ -1,0 +1,23 @@
+# Secrets - never commit these
+*.pem
+*.key
+.env
+.env.*
+*credentials*
+*secrets*
+
+# Terraform / CloudFormation local state
+*.tfstate
+*.tfstate.*
+.terraform/
+cdk.out/
+samconfig.toml
+
+# AWS CLI local output you don't need tracked
+*.zip
+output.json
+
+# OS / editor noise
+.DS_Store
+.vscode/
+*.swp
